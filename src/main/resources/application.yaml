@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: observability-example
+  ai:
+    openai:
+      base-url: https://openrouter.ai/api/v1
+      api-key: ${OPENROUTER_API_KEY}
+      chat:
+        options:
+          model: openai/gpt-4o-mini
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,loggers
+  endpoint:
+    prometheus:
+      access: UNRESTRICTED
+  tracing:
+    sampling:
+      probability: 1.0
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: http://172.21.94.78:4318/v1/traces
+    logging:
+      export:
+        otlp:
+          endpoint: http://172.21.94.78:3100/otlp/v1/logs
+  otlp:
+    metrics:
+      export:
+        enabled: false
